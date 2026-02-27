@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const queueEntrySchema = new mongoose.Schema(
   {
     queueId: { type: mongoose.Schema.Types.ObjectId, ref: "Queue", required: true },
+    customerId: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
     customerName: { type: String, required: true },
     phone: { type: String },
     status: { type: String, enum: ["WAITING", "SERVED", "CANCELLED"], default: "WAITING" },

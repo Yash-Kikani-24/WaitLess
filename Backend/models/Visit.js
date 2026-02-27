@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const visitSchema = new mongoose.Schema(
   {
+    customerId: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
     customerName: { type: String, required: true },
     phone: { type: String },
     businessId: { type: mongoose.Schema.Types.ObjectId, ref: "Business", required: true },

@@ -5,12 +5,13 @@ const Queue = require("../models/Queue");
 // Customer joins queue (guest for now)
 exports.joinQueue = async (req, res, next) => {
   try {
-    const { queueId, customerName, phone } = req.body;
+    const { queueId } = req.body;
 
     const entry = await QueueEntry.create({
       queueId,
-      customerName,
-      phone,
+      customerId: req.auth?.sub || null,
+      customerName: req.auth?.name || req.body.customerName,
+      phone: req.body.phone,
     });
 
     res.status(201).json(entry);
@@ -61,6 +62,7 @@ exports.serveNext = async (req, res, next) => {
     const queue = await Queue.findById(queueId).lean();
 
     const visit = await Visit.create({
+      customerId: nextEntry.customerId,
       customerName: nextEntry.customerName,
       phone: nextEntry.phone,
       businessId: queue.businessId,

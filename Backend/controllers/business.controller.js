@@ -20,3 +20,25 @@ exports.myBusinesses = async (req, res, next) => {
     next(e);
   }
 };
+
+exports.getNearby = async (req, res, next) => {
+  try {
+    const { lng, lat } = req.query;
+
+    const businesses = await Business.find({
+      location: {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: [parseFloat(lng), parseFloat(lat)],
+          },
+          $maxDistance: 5000, // 5km
+        },
+      },
+    });
+
+    res.json(businesses);
+  } catch (e) {
+    next(e);
+  }
+};

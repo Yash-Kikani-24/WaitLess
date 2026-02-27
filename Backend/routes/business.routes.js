@@ -5,5 +5,6 @@ const c = require("../controllers/business.controller");
 
 router.post("/", protect, requireRole("OWNER"), c.createBusiness);
 router.get("/mine", protect, requireRole("OWNER"), c.myBusinesses);
+router.get("/nearby", c.getNearby);
 
 module.exports = router;
